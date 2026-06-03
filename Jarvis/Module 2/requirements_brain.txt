@@ -1,0 +1,8 @@
+# JARVIS Brain Module — Python dependencies
+# Install: pip install -r requirements_brain.txt
+
+# Async HTTP client (Ollama API)
+httpx==0.27.0
+
+# Typing extras (Python < 3.11 compat)
+typing-extensions==4.11.0

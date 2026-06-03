@@ -1,0 +1,29 @@
+# JARVIS Automation Engine — Requirements
+
+## Core
+pyautogui>=0.9.54
+keyboard>=0.13.5
+psutil>=5.9.0
+selenium>=4.15.0
+
+## Optional but recommended
+webdriver-manager>=4.0.0     # Auto-downloads ChromeDriver/GeckoDriver
+pyperclip>=1.9.0              # Clipboard-based text paste (Unicode-safe)
+
+## Windows volume control (optional)
+pycaw>=20230407               # Precise Windows audio control
+comtypes>=1.2.0               # Required by pycaw
+
+## Run demo (no real browser needed)
+# python jarvis_automation_demo.py
+
+## Full pipeline with real browser
+# python -c "
+# from automation_engine import AutomationEngine
+# e = AutomationEngine(browser='chrome')
+# print(e.execute('search google for JARVIS AI'))
+# e.shutdown()
+# "
+
+## Install all
+# pip install pyautogui keyboard psutil selenium webdriver-manager pyperclip

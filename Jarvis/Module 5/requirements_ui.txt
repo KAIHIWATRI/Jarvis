@@ -1,0 +1,28 @@
+# JARVIS Desktop UI — Requirements & Setup
+
+## Core dependencies
+customtkinter>=5.2.2
+psutil>=5.9.0          # system stats
+Pillow>=10.0.0         # tray icon images
+
+## Optional (system tray integration)
+pystray>=0.19.0
+
+## Install
+pip install customtkinter psutil Pillow pystray
+
+## Run
+python jarvis_ui.py
+
+## TTS integration (with tts_engine.py from the TTS module)
+# At the bottom of jarvis_ui.py:
+#   from tts_engine import get_engine
+#   engine = get_engine()
+#   app.connect_tts(engine)
+
+## Performance notes (Ryzen 7 3700U)
+# - Animation loop runs at 20 fps max (50ms interval)
+# - System stats poll every 2 seconds (not 100ms)
+# - Canvas redraws use delete("all") + redraw (efficient for small canvases)
+# - No PIL/numpy in animation hot path — pure tkinter only
+# - Background mode: app.withdraw() to hide window (tray icon remains)

@@ -1,0 +1,75 @@
+# JARVIS Tray Service — Requirements & Setup
+
+# ─────────────────────────────────────────────
+# Python dependencies
+# ─────────────────────────────────────────────
+pystray>=0.19.5
+Pillow>=10.0.0
+keyboard>=0.13.5
+psutil>=5.9.0
+
+# Optional (already installed from other JARVIS modules)
+customtkinter>=5.2.2      # Full UI window
+
+# ─────────────────────────────────────────────
+# Install
+# ─────────────────────────────────────────────
+# pip install pystray Pillow keyboard psutil
+
+# ─────────────────────────────────────────────
+# Run modes
+# ─────────────────────────────────────────────
+
+# Tray only (no UI window):
+#   python tray_service.py
+
+# Tray + full JARVIS UI:
+#   python tray_service.py --with-ui
+
+# Enable auto-start with Windows on launch:
+#   python tray_service.py --autostart
+
+# Silent (no balloon notifications):
+#   python tray_service.py --silent
+
+# Custom global hotkey:
+#   python tray_service.py --hotkey "ctrl+shift+j"
+
+# ─────────────────────────────────────────────
+# Full JARVIS stack integration
+# ─────────────────────────────────────────────
+# From another module, connect components after start:
+#
+#   from tray_service import JARVISTrayService
+#   from tts_engine import get_engine
+#
+#   service = JARVISTrayService()
+#   tts = get_engine()
+#
+#   # Wire TTS state changes into tray icon
+#   def on_tts_event(event, data):
+#       if event == "command_received":
+#           service._tray.set_state("thinking")
+#       elif event == "command_done":
+#           service._tray.set_state("idle")
+#
+#   service.start()   # blocks on main thread (pystray requirement)
+
+# ─────────────────────────────────────────────
+# Windows startup methods (tried in order)
+# ─────────────────────────────────────────────
+# 1. HKCU\Software\Microsoft\Windows\CurrentVersion\Run   (registry)
+# 2. Task Scheduler (schtasks /create /sc ONLOGON)
+# 3. %APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\JARVIS.bat
+
+# ─────────────────────────────────────────────
+# File structure
+# ─────────────────────────────────────────────
+# jarvis_tray/
+# ├── tray_service.py          ← entry point / orchestrator
+# ├── tray_icon.py             ← pystray icon + animated frames + menu
+# ├── background_service.py    ← asyncio task runner + hotkey + watchdog
+# ├── startup_manager.py       ← Windows registry / Task Scheduler
+# ├── service_state.py         ← state machine (IDLE→RUNNING→STOPPED)
+# ├── shutdown_coordinator.py  ← safe ordered teardown with watchdog
+# └── requirements_tray.txt    ← this file
